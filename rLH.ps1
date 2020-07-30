@@ -1,5 +1,8 @@
-$Subscriptions = Get-AzSubscription
-foreach ($sub in $Subscriptions){
-set-Azcontext -SubscriptionId $sub.Id
-New-AzDeployment -Name 'rhipeMSP' -Location 'Australia East' -TemplateFile 'dRM.json' -TemplateParameterFile 'dRMpara.json' -Verbose
+Login-AzureRmAccount
+$TenantId = Get-AzureRmTenant
+$Subscriptions = Get-AzureRmSubscription
+
+foreach ($sub in $Subscriptions) {
+    Set-AzureRmcontext -Tenant $TenantId -SubscriptionId $sub
+    New-AzureRmDeployment -Name 'rhipeMSP' -Location 'Australia East' -TemplateFile 'dRM.json' -TemplateParameterFile 'dRMpara.json' -Verbose
 }
